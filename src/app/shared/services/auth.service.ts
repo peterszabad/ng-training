@@ -28,6 +28,17 @@ export class AuthService {
         this.user = response['user'];
         this.token = response['token'];
         this._saveToStorage();
+        
+        /* Uncomment to  */
+        const TOKEN_INVALIDATION_TIMEOUT_SEC = 10;
+        setTimeout(() => {
+          if (this.token) {
+            const invalidationSuffix = '_expired';
+            this.token = this.token + invalidationSuffix;//.substring(0, this.token.length-invalidationSuffix.length) + invalidationSuffix;
+            console.log(`Just invalidated your token. Cheers`);
+          }
+        }, TOKEN_INVALIDATION_TIMEOUT_SEC * 1000);
+        
         subject.next(response);
       },
       (error: any) => {

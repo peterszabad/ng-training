@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { ApiService, AuthService, AuthGuard } from './';
+import { SessionExpiredInterceptor } from './interceptors/session-expired.interceptor';
+
 
 @NgModule({
   imports: [
@@ -16,7 +18,12 @@ import { ApiService, AuthService, AuthGuard } from './';
   providers: [
     ApiService,
     AuthService,
-    AuthGuard
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SessionExpiredInterceptor,
+      multi: true
+    }
   ],
   declarations: [
     NotFoundComponent,

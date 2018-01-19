@@ -16,7 +16,6 @@ import { TaskModule } from './task/task.module';
     SharedModule,
     TaskModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
